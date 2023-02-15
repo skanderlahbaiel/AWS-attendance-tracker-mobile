@@ -16,17 +16,7 @@ export default function FacialRecognitionCamera({ navigation }) {
         }
     }, []);
 
-    useFocusEffect(() => {
-        const onFocus = () => {
-            if (!permission?.granted) {
-                requestPermission();
-            }
-        };
-        navigation.addListener('focus', onFocus);
-        return () => {
-            navigation.removeListener('focus', onFocus);
-        };
-    });
+    
 
     function toggleCameraType() {
         setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
@@ -44,7 +34,7 @@ export default function FacialRecognitionCamera({ navigation }) {
             <Camera
                 style={styles.camera}
                 type={type} zoom={0}
-                focusDepth={0.5}
+                focusDepth={0.6}
                 
             >
                 <View style={styles.buttonContainer}>
