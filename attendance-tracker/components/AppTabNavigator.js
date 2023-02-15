@@ -7,7 +7,9 @@ import StackNavAttendance from "./StackNavAttendance"
 export default function AppTabNavigator() {
     const Tab = createBottomTabNavigator()
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+        screenOptions={{headerShown:false}}
+        >
             <Tab.Screen
                 name='Profile'
                 component={Profile} />
