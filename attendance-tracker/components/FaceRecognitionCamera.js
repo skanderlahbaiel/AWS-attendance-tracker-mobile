@@ -21,6 +21,12 @@ export default function FacialRecognitionCamera({ navigation }) {
     let cameraRef = useRef();
     const [type, setType] = useState(CameraType.front);
     const [permission, requestPermission] = Camera.useCameraPermissions();
+    const [message, setMessage] = useState('');
+
+    const showMessage = (text, duration = 100000) => {
+        setMessage(text);
+        setTimeout(() => setMessage(''), duration);
+    };
 
     useEffect(() => {
         if (!permission?.granted) {
@@ -108,7 +114,8 @@ export default function FacialRecognitionCamera({ navigation }) {
                 setDb(false)
                 setPhoto(null)
                 setPreviewVisible(false)
-                console.log(db)
+                showMessage(response.data.msg)
+
 
 
             } catch (error) {
@@ -176,12 +183,19 @@ export default function FacialRecognitionCamera({ navigation }) {
                                 <Ionicons name={flashMode == "off" ? "flash" : "flash-off"} size={50} color="orange" />
                             </TouchableOpacity>
                         </View>
+                        {message &&
+                            <View style={styles.message_success_add}>
+                                <Text style={{color:'green'}}>{message}</Text>
+                            </View>
+                        }
 
                         <View style={styles.captureButton}>
                             <TouchableOpacity style={styles.snapAndsubmit} onPress={takePic}>
-                                <Ionicons name="ellipse-outline" size={100} color="orange" />
+                                <Ionicons name="ellipse" size={100} color="orange" />
                             </TouchableOpacity>
                         </View>
+                       
+
                     </Camera>
 
                 }
@@ -246,5 +260,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: 'orange',
         fontWeight: '700'
+    },
+    message_success_add: {
+        alignContent:'center',
+        justifyContent: 'center',
+        paddingBottom: 60,
+        alignSelf:'center'
     }
 })
