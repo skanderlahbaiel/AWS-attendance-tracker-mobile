@@ -6,18 +6,20 @@ import { useIsFocused } from '@react-navigation/core';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CameraPreview from './CameraPreview';
-import ProcessingScreen from './ProcessingScreen';
+
 
 export default function FacialRecognitionCamera({ navigation }) {
 
     const isFocused = useIsFocused();
+    const [yourName, setYourName] = useState(null)
+    const [db, setDb] = useState(false)
     const [flashMode, setFlashMode] = useState('off')
     const [photo, setPhoto] = useState();
+    const [name, setName] = useState();
+    const [recognized, setRecognized] = useState(false);
     const [previewVisible, setPreviewVisible] = useState(false)
     const [processing, setProcessing] = useState(false);
     let cameraRef = useRef();
-    console.log(isFocused)
-    const skander = useWindowDimensions()
     const [type, setType] = useState(CameraType.front);
     const [permission, requestPermission] = Camera.useCameraPermissions();
 
@@ -38,6 +40,13 @@ export default function FacialRecognitionCamera({ navigation }) {
 
     }
 
+    function showTextInput() {
+        setDb(!db)
+    }
+
+    function updateName(addname) {
+        setYourName(addname)
+    }
 
     const takePic = async () => {
         let options = {
@@ -63,10 +72,41 @@ export default function FacialRecognitionCamera({ navigation }) {
                         'Content-Type': 'application/json'
                     }
                 });
-                
-                console.log(response.data.data)
-                console.log("permission is" + permission )
+
+
+                setName(response.data.name)
                 setProcessing(false)
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const __sendPicture_todb = async (yourname) => {
+        if (!photo) {
+            console.log("Photo is null or undefined");
+            return;
+          }
+
+        else if (photo) {
+            try {
+                setProcessing(true)
+                const response = await axios.post('http://192.168.1.23:5000/addface', {
+                    image: {
+                        dataURL: "data:image/jpeg;base64," + photo.base64,
+                        name: yourname
+                    },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+
+               console.log(response)
+                setProcessing(false)
+                setYourName(none)
+                setDb(false)
 
             } catch (error) {
                 console.log(error);
@@ -81,13 +121,14 @@ export default function FacialRecognitionCamera({ navigation }) {
     const __retakePicture = () => {
         setPhoto(null)
         setPreviewVisible(false)
+        setName(null)
 
     }
 
     if (!permission?.granted) {
         return <Text>No camera permissions</Text>;
     }
-    
+
     return (
         <>
             <View style={styles.container}>
@@ -97,7 +138,16 @@ export default function FacialRecognitionCamera({ navigation }) {
                             photo={photo}
                             sendPicture={__sendPicture}
                             retakePicture={__retakePicture}
-                            processing={processing} />
+                            processing={processing}
+                            name={name}
+                            __sendPicture_todb={__sendPicture_todb}
+                            db={db}
+                            showTextInput={showTextInput}
+                            yourName={yourName}
+                            updateName={updateName}
+
+
+                        />
 
                     ) :
 
@@ -110,6 +160,7 @@ export default function FacialRecognitionCamera({ navigation }) {
                         type={type}
                         zoom={0}
                         ref={cameraRef}
+                        ratio="16:9"
                         flashMode={flashMode}
 
 
@@ -131,9 +182,6 @@ export default function FacialRecognitionCamera({ navigation }) {
                     </Camera>
 
                 }
-
-                {console.log(skander)}
-                {console.log(permission)}
 
 
             </View>
