@@ -1,9 +1,15 @@
 import { View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ProcessingScreen from './ProcessingScreen';
 
 
-export default function CameraPreview({ photo, sendPicture, retakePicture }) {
-  console.log('sdsfds', photo)
+export default function CameraPreview({ photo, sendPicture, retakePicture, processing }) {
+  
+  if (processing) {
+    return <ProcessingScreen/>
+  }
+
+
   return (
     <View
       style={{

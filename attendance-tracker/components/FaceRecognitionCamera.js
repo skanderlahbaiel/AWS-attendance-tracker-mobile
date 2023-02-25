@@ -6,10 +6,12 @@ import { useIsFocused } from '@react-navigation/core';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CameraPreview from './CameraPreview';
+import ProcessingScreen from './ProcessingScreen';
 
 export default function FacialRecognitionCamera({ navigation }) {
 
     const isFocused = useIsFocused();
+    const [flashMode, setFlashMode] = useState('off')
     const [photo, setPhoto] = useState();
     const [previewVisible, setPreviewVisible] = useState(false)
     const [processing, setProcessing] = useState(false);
@@ -25,7 +27,18 @@ export default function FacialRecognitionCamera({ navigation }) {
         }
     }, []);
 
-    
+    const __handleFlashMode = () => {
+        if (flashMode === 'on') {
+            setFlashMode('off')
+        } else if (flashMode === 'off') {
+            setFlashMode('on')
+        } else {
+            setFlashMode('auto')
+        }
+
+    }
+
+
     const takePic = async () => {
         let options = {
             quality: 1,
@@ -41,6 +54,7 @@ export default function FacialRecognitionCamera({ navigation }) {
     const __sendPicture = async () => {
         if (photo) {
             try {
+                setProcessing(true)
                 const response = await axios.post('http://192.168.1.23:5000/identify', {
                     image: {
                         dataURL: "data:image/jpeg;base64," + photo.base64
@@ -49,8 +63,9 @@ export default function FacialRecognitionCamera({ navigation }) {
                         'Content-Type': 'application/json'
                     }
                 });
-                setProcessing(true)
+                
                 console.log(response.data.data)
+                console.log("permission is" + permission )
                 setProcessing(false)
 
             } catch (error) {
@@ -66,26 +81,27 @@ export default function FacialRecognitionCamera({ navigation }) {
     const __retakePicture = () => {
         setPhoto(null)
         setPreviewVisible(false)
-        
-      }
+
+    }
 
     if (!permission?.granted) {
         return <Text>No camera permissions</Text>;
     }
-
+    
     return (
         <>
             <View style={styles.container}>
-                {previewVisible && photo ? 
-                (
-                    <CameraPreview 
-                    photo={photo} 
-                    sendPicture={__sendPicture}
-                    retakePicture={__retakePicture} />
+                {previewVisible && photo ?
+                    (
+                        <CameraPreview
+                            photo={photo}
+                            sendPicture={__sendPicture}
+                            retakePicture={__retakePicture}
+                            processing={processing} />
 
-                ) : 
+                    ) :
 
-                    
+
 
                     isFocused &&
 
@@ -94,12 +110,16 @@ export default function FacialRecognitionCamera({ navigation }) {
                         type={type}
                         zoom={0}
                         ref={cameraRef}
+                        flashMode={flashMode}
 
 
                     >
                         <View style={styles.toggleCameraContainer}>
                             <TouchableOpacity onPress={toggleCameraType}>
                                 <Ionicons name="camera-reverse-outline" size={50} color="orange" />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={__handleFlashMode}>
+                                <Ionicons name={flashMode == "off" ? "flash" : "flash-off"} size={50} color="orange" />
                             </TouchableOpacity>
                         </View>
 
