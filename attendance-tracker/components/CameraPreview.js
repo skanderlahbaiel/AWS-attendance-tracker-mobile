@@ -65,7 +65,7 @@ export default function CameraPreview({ photo, sendPicture, retakePicture, proce
                 placeholder="Enter your name"
                 style={styles.textInput}
               />
-              <Text>{yourName}</Text>
+
             </View>
             <Pressable onPress={() => __sendPicture_todb(yourName)} style={styles.sendButton}>
               <Text style={styles.sendButtonText}>Send</Text>

@@ -16,7 +16,6 @@ export default function FacialRecognitionCamera({ navigation }) {
     const [flashMode, setFlashMode] = useState('off')
     const [photo, setPhoto] = useState();
     const [name, setName] = useState();
-    const [recognized, setRecognized] = useState(false);
     const [previewVisible, setPreviewVisible] = useState(false)
     const [processing, setProcessing] = useState(false);
     let cameraRef = useRef();
@@ -83,11 +82,11 @@ export default function FacialRecognitionCamera({ navigation }) {
         }
     };
 
-    const __sendPicture_todb = async (yourname) => {
+    const __sendPicture_todb = async (yourName) => {
         if (!photo) {
             console.log("Photo is null or undefined");
             return;
-          }
+        }
 
         else if (photo) {
             try {
@@ -95,7 +94,7 @@ export default function FacialRecognitionCamera({ navigation }) {
                 const response = await axios.post('http://192.168.1.23:5000/addface', {
                     image: {
                         dataURL: "data:image/jpeg;base64," + photo.base64,
-                        name: yourname
+                        name: yourName
                     },
                     headers: {
                         'Content-Type': 'application/json'
@@ -103,10 +102,14 @@ export default function FacialRecognitionCamera({ navigation }) {
                 });
 
 
-               console.log(response)
+                console.log(response.data)
                 setProcessing(false)
-                setYourName(none)
+                setYourName(null)
                 setDb(false)
+                setPhoto(null)
+                setPreviewVisible(false)
+                console.log(db)
+
 
             } catch (error) {
                 console.log(error);
