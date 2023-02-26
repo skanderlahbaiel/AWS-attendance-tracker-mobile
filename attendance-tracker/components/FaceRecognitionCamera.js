@@ -140,6 +140,7 @@ export default function FacialRecognitionCamera({ navigation }) {
         setPreviewVisible(false)
         setName(null)
         setError(false)
+        setDistance(null)
 
     }
 

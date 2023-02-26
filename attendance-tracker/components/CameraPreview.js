@@ -3,6 +3,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProcessingScreen from './ProcessingScreen';
 import RecognitionSuccess from './RecognitionSuccess';
 import tipsData from 'attendance-tracker/TipsAndpolicies.json';
+import ErrorScreen from './ErrorScreen';
 
 
 export default function CameraPreview({
@@ -57,37 +58,27 @@ export default function CameraPreview({
   if (processing) {
     return <ProcessingScreen />
   }
-
-  else if (name) {
-    return <RecognitionSuccess name={name} retakePicture={retakePicture} setName={updateName} />
-  }
-
+ 
   else if (Number(distance) > 1) {
     return (
       <>
-        <TouchableOpacity onPress={retakePicture} >
-          <Ionicons name="arrow-undo" size={50} color="#E0E0E0" />
-          <Text >Discard</Text>
-
-        </TouchableOpacity>
-        <Text>not in db</Text>
+        <ErrorScreen retakePicture={retakePicture} text="Unfortunately, we couldn't find a match for your face in our database. Please ensure that you have uploaded your pictures as recommended. If you have already done so, it's possible that you are not a member of our organization." />
 
       </>
     )
   }
 
+  else if (name) {
+    return <RecognitionSuccess name={name} retakePicture={retakePicture} setName={updateName} />
+  }
+
+ 
+
   else if (error) {
     return (<>
-      <View style={styles.icons}>
-        <TouchableOpacity onPress={retakePicture} >
-          <Ionicons name="arrow-undo" size={50} color="#E0E0E0" />
-          <Text >Discard</Text>
+      <ErrorScreen retakePicture={retakePicture} text="Sorry, we couldn't recognize a face in the image you provided. Please retake the picture in good lighting and ensure your face is not obstructed by any objects. If the issue persists, it may be due to a problem with the server or the connection. Please try again later."/>
 
-        </TouchableOpacity>
-        <Text>An error occured</Text>
-      </View>
-
-
+      {console.log('distance: ' + distance)}
     </>)
   }
 
