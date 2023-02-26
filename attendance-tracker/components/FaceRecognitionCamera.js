@@ -176,25 +176,25 @@ export default function FacialRecognitionCamera({ navigation }) {
 
                     >
                         <View style={styles.toggleCameraContainer}>
-                            <TouchableOpacity onPress={toggleCameraType}>
-                                <Ionicons name="camera-reverse-outline" size={50} color="orange" />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={__handleFlashMode}>
-                                <Ionicons name={flashMode == "off" ? "flash" : "flash-off"} size={50} color="orange" />
+                            <TouchableOpacity style = {styles.touchOPacity} onPress={toggleCameraType}>
+                                <Ionicons name="camera-reverse-outline" size={35} color="#E0E0E0" />
+                            </TouchableOpacity >
+                            <TouchableOpacity style = {styles.touchOPacity} onPress={__handleFlashMode}>
+                                <Ionicons name={flashMode == "off" ? "flash" : "flash-off"} size={35} color="#E0E0E0" />
                             </TouchableOpacity>
                         </View>
                         {message &&
                             <View style={styles.message_success_add}>
-                                <Text style={{color:'green'}}>{message}</Text>
+                                <Text style={{ color: 'green' }}>{message}</Text>
                             </View>
                         }
 
                         <View style={styles.captureButton}>
                             <TouchableOpacity style={styles.snapAndsubmit} onPress={takePic}>
-                                <Ionicons name="ellipse" size={100} color="orange" />
+                                <Ionicons name="ellipse" size={100} color="#E0E0E0" />
                             </TouchableOpacity>
                         </View>
-                       
+
 
                     </Camera>
 
@@ -232,6 +232,10 @@ const styles = StyleSheet.create({
 
 
     },
+    touchOPacity: {
+        paddingBottom:10,
+        paddingTop:10
+    },
 
     camera: {
 
@@ -251,7 +255,7 @@ const styles = StyleSheet.create({
         paddingTop: 45,
         paddingRight: 35,
         justifyContent: 'flex-start',
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
 
     },
 
@@ -262,9 +266,9 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     },
     message_success_add: {
-        alignContent:'center',
+        alignContent: 'center',
         justifyContent: 'center',
         paddingBottom: 60,
-        alignSelf:'center'
+        alignSelf: 'center'
     }
 })

@@ -1,0 +1,53 @@
+{
+    "Tips for Taking Pictures for Facial Recognition": [
+      {
+        "id": 1,
+        "description": ["Take the picture in a well-lit area with good lighting on the face."]
+      },
+      {
+        "id": 2,
+        "description": ["Position the camera at eye level with the subject's face."]
+      },
+      {
+        "id": 3,
+        "description": ["Avoid any obstructions such as glasses or hats that cover the face."]
+      },
+      {
+        "id": 4,
+        "description": ["The subject should look directly at the camera and keep a neutral expression."]
+      },
+      {
+        "id": 5,
+        "description": ["Take multiple pictures from different angles and with different lighting conditions to increase accuracy."]
+      },
+      {
+        "id": 6,
+        "description": ["Ensure that the face is not partially hidden by hands or other objects."]
+      }
+    ],
+    "Adding Users to the Database": [
+      {
+        "id": 1,
+        "description": ["Only authorized personnel are allowed to add users to the database. Users who do not belong to the organization should not be added."]
+      },
+      {
+        "id": 2,
+        "description": ["The subject must provide their consent to be added to the database."]
+      },
+      {
+        "id": 3,
+        "description": ["The subject must provide accurate and up-to-date information, including their name."]
+      },
+      {
+        "id": 4,
+        "description": ["The subject must meet the organization's criteria for being added to the database."]
+      }
+    ],
+    "policies": [
+      {
+        "id": 1,
+        "description": ["We take the privacy and security of our users seriously, and any misuse or abuse of the facial recognition system will not be tolerated."]
+      }
+    ]
+  }
+  
