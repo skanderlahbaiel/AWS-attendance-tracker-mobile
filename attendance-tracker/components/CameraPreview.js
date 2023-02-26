@@ -5,7 +5,20 @@ import RecognitionSuccess from './RecognitionSuccess';
 import tipsData from 'attendance-tracker/TipsAndpolicies.json';
 
 
-export default function CameraPreview({ photo, sendPicture, retakePicture, processing, name, setName, __sendPicture_todb, db, showTextInput, yourName, updateName }) {
+export default function CameraPreview({
+  photo,
+  sendPicture,
+  retakePicture,
+  processing,
+  name,
+  setName,
+  __sendPicture_todb,
+  db,
+  showTextInput,
+  yourName,
+  updateName,
+  distance,
+  error }) {
 
 
   const data = [
@@ -45,9 +58,39 @@ export default function CameraPreview({ photo, sendPicture, retakePicture, proce
     return <ProcessingScreen />
   }
 
-  if (name) {
+  else if (name) {
     return <RecognitionSuccess name={name} retakePicture={retakePicture} setName={updateName} />
   }
+
+  else if (Number(distance) > 1) {
+    return (
+      <>
+        <TouchableOpacity onPress={retakePicture} >
+          <Ionicons name="arrow-undo" size={50} color="#E0E0E0" />
+          <Text >Discard</Text>
+
+        </TouchableOpacity>
+        <Text>not in db</Text>
+
+      </>
+    )
+  }
+
+  else if (error) {
+    return (<>
+      <View style={styles.icons}>
+        <TouchableOpacity onPress={retakePicture} >
+          <Ionicons name="arrow-undo" size={50} color="#E0E0E0" />
+          <Text >Discard</Text>
+
+        </TouchableOpacity>
+        <Text>An error occured</Text>
+      </View>
+
+
+    </>)
+  }
+
 
 
   return (

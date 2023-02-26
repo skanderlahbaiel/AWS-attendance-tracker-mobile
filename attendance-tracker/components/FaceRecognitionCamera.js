@@ -12,6 +12,8 @@ export default function FacialRecognitionCamera({ navigation }) {
 
     const isFocused = useIsFocused();
     const [yourName, setYourName] = useState(null)
+    const [distance, setDistance] = useState(null)
+    const [error, setError] = useState(false)
     const [db, setDb] = useState(false)
     const [flashMode, setFlashMode] = useState('off')
     const [photo, setPhoto] = useState();
@@ -80,9 +82,12 @@ export default function FacialRecognitionCamera({ navigation }) {
 
 
                 setName(response.data.name)
+                setDistance(response.data.distance)
                 setProcessing(false)
 
             } catch (error) {
+                setError(true)
+                setProcessing(false)
                 console.log(error);
             }
         }
@@ -119,6 +124,8 @@ export default function FacialRecognitionCamera({ navigation }) {
 
 
             } catch (error) {
+                setError(true)
+                setProcessing(false)
                 console.log(error);
             }
         }
@@ -132,6 +139,7 @@ export default function FacialRecognitionCamera({ navigation }) {
         setPhoto(null)
         setPreviewVisible(false)
         setName(null)
+        setError(false)
 
     }
 
@@ -155,6 +163,8 @@ export default function FacialRecognitionCamera({ navigation }) {
                             showTextInput={showTextInput}
                             yourName={yourName}
                             updateName={updateName}
+                            distance={distance}
+                            error={error}
 
 
                         />
